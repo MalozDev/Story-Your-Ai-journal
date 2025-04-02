@@ -16,7 +16,7 @@ const WelcomeSuccess = () => {
     if (action === 'write') {
       navigate('/journal/new');
     } else {
-      navigate('/features');
+      navigate('/dashboard');
     }
   };
 
@@ -45,7 +45,7 @@ const WelcomeSuccess = () => {
             className='action-button secondary'
             onClick={() => handleContinue('explore')}
           >
-            Explore Features
+            Explore
           </button>
         </div>
       </div>
