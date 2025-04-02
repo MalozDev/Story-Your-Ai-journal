@@ -1,5 +1,6 @@
 {
-  "name": "frontend",
+  "name": "Story-Your-Ai-journal",
+  "homepage": "https://github.com/MalozDev/Story-Your-Ai-journal",
   "private": true,
   "version": "0.0.0",
   "type": "module",
