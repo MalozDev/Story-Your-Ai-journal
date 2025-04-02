@@ -1,0 +1,185 @@
+/* SignUp.css */
+:root {
+  --color-primary: #1a365d; /* Deep Navy Blue */
+  --color-secondary: #f59e0b; /* Warm Amber */
+  --color-background: #fffbf0; /* Soft Cream */
+  --color-text: #2d3748; /* Dark Charcoal */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Work Sans', sans-serif;
+  --font-journal: 'Lora', serif;
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 1.5rem;
+  background-color: var(--color-background);
+  background-image: url('/images/paper-texture.png');
+  background-repeat: repeat;
+}
+
+.signup-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signup-title {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  color: var(--color-primary);
+}
+
+.conversation-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+}
+
+.ai-message {
+  display: flex;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f0f4f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.message-bubble {
+  background-color: #f0f4f8;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  border-top-left-radius: 0;
+  max-width: 80%;
+}
+
+.message-bubble p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.user-input-container {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.user-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.continue-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--color-secondary);
+  color: white;
+  font-family: var(--font-body);
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.continue-button:hover {
+  background-color: #e3900a;
+  transform: translateY(-2px);
+}
+
+.continue-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.progress-container {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.progress-text {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #e2e8f0;
+  transition: background-color 0.3s;
+}
+
+.progress-dot.active {
+  background-color: var(--color-secondary);
+}
+
+/* Responsive adjustments */
+@media (min-width: 640px) {
+  .signup-container {
+    padding: 2rem;
+  }
+
+  .signup-title {
+    font-size: 2rem;
+  }
+
+  .user-input-container {
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+
+  .user-input {
+    margin-bottom: 0;
+    flex: 1;
+  }
+
+  .continue-button {
+    width: auto;
+    padding: 0.75rem 1.5rem;
+  }
+}
