@@ -1,14 +1,16 @@
+// src/components/LandingPage/LandingPage.jsx
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 
 const LandingPage = () => {
   const [storyTitle, setStoryTitle] = useState('');
+  const navigate = useNavigate();
 
   const handleStartStory = () => {
-    // Navigate to sign-up flow or store the title
-    console.log('Starting story with title:', storyTitle);
-    // Here you would typically use router navigation
-    // e.g., navigate('/signup') or similar
+    if (storyTitle.trim()) {
+      navigate('/signup', { state: { title: storyTitle } });
+    }
   };
 
   return (

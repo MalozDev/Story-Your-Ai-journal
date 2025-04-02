@@ -1,11 +1,24 @@
+// src/components/WelcomeSuccess/WelcomeSuccess.jsx
 import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './WelcomeSuccess.css';
 
-const WelcomeSuccess = ({ userData, onContinue }) => {
-  // Optional animation on component mount
+const WelcomeSuccess = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const userData = location.state?.userData || { name: 'Friend' };
+
   useEffect(() => {
     // You could add any animations or effects here
   }, []);
+
+  const handleContinue = (action) => {
+    if (action === 'write') {
+      navigate('/journal/new');
+    } else {
+      navigate('/features');
+    }
+  };
 
   return (
     <div className='welcome-container'>
@@ -23,14 +36,14 @@ const WelcomeSuccess = ({ userData, onContinue }) => {
         <div className='welcome-actions'>
           <button
             className='action-button primary'
-            onClick={() => onContinue('write')}
+            onClick={() => handleContinue('write')}
           >
             Write First Entry
           </button>
 
           <button
             className='action-button secondary'
-            onClick={() => onContinue('explore')}
+            onClick={() => handleContinue('explore')}
           >
             Explore Features
           </button>

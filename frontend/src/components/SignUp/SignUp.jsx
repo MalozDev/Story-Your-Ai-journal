@@ -1,13 +1,14 @@
+// src/components/SignUp/SignUp.jsx
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './SignUp.css';
 
-const SignUp = ({ initialTitle = '', onComplete }) => {
-  // Track current step in the sign-up process
+const SignUp = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
-
-  // Store user data across all steps
   const [userData, setUserData] = useState({
-    title: initialTitle,
+    title: location.state?.title || '',
     name: '',
     birthday: '',
     timezone: '',
@@ -16,18 +17,13 @@ const SignUp = ({ initialTitle = '', onComplete }) => {
     email: '',
     password: '',
   });
-
-  // Store current input for the active step
   const [currentInput, setCurrentInput] = useState('');
 
-  // Handle input changes
   const handleInputChange = (e) => {
     setCurrentInput(e.target.value);
   };
 
-  // Handle continue to next step
   const handleContinue = () => {
-    // Update userData based on current step
     let updatedUserData = { ...userData };
 
     switch (currentStep) {
@@ -35,7 +31,6 @@ const SignUp = ({ initialTitle = '', onComplete }) => {
         updatedUserData.name = currentInput;
         break;
       case 2:
-        // In a real app, you'd parse this more carefully
         updatedUserData.birthday = currentInput;
         break;
       case 3:
@@ -45,7 +40,6 @@ const SignUp = ({ initialTitle = '', onComplete }) => {
         updatedUserData.aiPersonality = currentInput;
         break;
       case 5:
-        // In a real app, you'd validate email format
         updatedUserData.email = currentInput;
         break;
       default:
@@ -55,16 +49,13 @@ const SignUp = ({ initialTitle = '', onComplete }) => {
     setUserData(updatedUserData);
     setCurrentInput('');
 
-    // Move to next step or complete
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     } else {
-      // If we're at the last step, call the completion handler
-      onComplete && onComplete(updatedUserData);
+      navigate('/welcome', { state: { userData: updatedUserData } });
     }
   };
 
-  // Get question text based on current step
   const getStepQuestion = () => {
     switch (currentStep) {
       case 1:
@@ -82,7 +73,6 @@ const SignUp = ({ initialTitle = '', onComplete }) => {
     }
   };
 
-  // Get input type and placeholder based on current step
   const getInputConfig = () => {
     switch (currentStep) {
       case 1:
