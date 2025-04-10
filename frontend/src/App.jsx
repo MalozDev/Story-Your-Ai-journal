@@ -4,6 +4,9 @@ import SignUp from './components/SignUp/SignUp';
 import WelcomeSuccess from './components/WelcomeSuccess/WelcomeSuccess';
 import MainDashboard from './components/Dashboard/Dashboard';
 import TimelinePage from './components/TimelinePage/TimelinePage';
+import ProfilePage from './components/ProfilePage/ProfilePage';
+import SettingsPage from './components/SettingsPage/SettingsPage';
+import AIPage from './components/AIPage/AIPage';
 
 function App() {
   return (
@@ -13,7 +16,10 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/welcome' element={<WelcomeSuccess />} />
         <Route path='/dashboard' element={<MainDashboard />} />
-        <Route path='dashboard/timeline' element={<TimelinePage />} />
+        <Route path='/timeline' element={<TimelinePage />} />
+        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/settings' element={<SettingsPage />} />
+        <Route path='/ai' element={<AIPage />} />
       </Routes>
     </BrowserRouter>
   );

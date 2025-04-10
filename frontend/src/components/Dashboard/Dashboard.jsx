@@ -5,7 +5,7 @@ const Dashboard = ({ username = 'User' }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get active tab from current path
+  // Get active tab from current pathname
   const getActiveTab = () => {
     const path = location.pathname;
     if (path === '/') return 'home';
@@ -15,11 +15,13 @@ const Dashboard = ({ username = 'User' }) => {
     if (path.includes('/settings')) return 'settings';
     return '';
   };
+
   const activeTab = getActiveTab();
 
   const handleTabClick = (route) => {
     navigate(route);
   };
+
   const getTimeOfDay = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'morning';
@@ -132,39 +134,25 @@ const Dashboard = ({ username = 'User' }) => {
         </section>
       </div>
 
+      {/* Bottom Navigation */}
       <nav className='bottom-nav'>
-        <button
-          className={`nav-button ${activeTab === 'home' ? 'active' : ''}`}
-          onClick={() => handleTabClick('home')}
-        >
+        <button className='nav-button active'>
           <span className='nav-icon'>🏠</span>
           <span className='nav-label'>Home</span>
         </button>
-        <button
-          className={`nav-button ${activeTab === 'profile' ? 'active' : ''}`}
-          onClick={() => handleTabClick('profile')}
-        >
+        <button className='nav-button' onClick={() => navigate('/profile')}>
           <span className='nav-icon'>👤</span>
           <span className='nav-label'>Profile</span>
         </button>
-        <button
-          className={`nav-button ${activeTab === 'ai' ? 'active' : ''}`}
-          onClick={() => handleTabClick('ai')}
-        >
+        <button className='nav-button' onClick={() => navigate('/ai')}>
           <span className='nav-icon'>🤖</span>
           <span className='nav-label'>AI</span>
         </button>
-        <button
-          className={`nav-button ${activeTab === 'timeline' ? 'active' : ''}`}
-          onClick={() => handleTabClick('timeline')}
-        >
+        <button className='nav-button' onClick={() => navigate('/timeline')}>
           <span className='nav-icon'>📊</span>
           <span className='nav-label'>Timeline</span>
         </button>
-        <button
-          className={`nav-button ${activeTab === 'settings' ? 'active' : ''}`}
-          onClick={() => handleTabClick('settings')}
-        >
+        <button className='nav-button' onClick={() => navigate('/settings')}>
           <span className='nav-icon'>⚙️</span>
           <span className='nav-label'>Settings</span>
         </button>
