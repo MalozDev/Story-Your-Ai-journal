@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import './TimelinePage.css';
+import { useNavigate } from 'react-router-dom';
 
 const TimelinePage = () => {
-  // Dummy data for timeline entries
+  const navigate = useNavigate();
+
   const timelineEntries = [
     {
       id: 1,
@@ -33,11 +34,8 @@ const TimelinePage = () => {
     },
   ];
 
-  // Group entries by year
   const entriesByYear = timelineEntries.reduce((acc, entry) => {
-    if (!acc[entry.year]) {
-      acc[entry.year] = [];
-    }
+    if (!acc[entry.year]) acc[entry.year] = [];
     acc[entry.year].push(entry);
     return acc;
   }, {});
@@ -61,7 +59,6 @@ const TimelinePage = () => {
       </div>
 
       <div className='calendar-view'>
-        {/* Calendar preview for quick date selection */}
         <div className='calendar-preview'>
           <div className='month-selector'>
             <button className='month-arrow'>◀</button>
@@ -69,19 +66,14 @@ const TimelinePage = () => {
             <button className='month-arrow'>▶</button>
           </div>
           <div className='mini-calendar'>
-            {/* Simplified calendar grid */}
             <div className='calendar-days'>
-              <div className='day-label'>S</div>
-              <div className='day-label'>M</div>
-              <div className='day-label'>T</div>
-              <div className='day-label'>W</div>
-              <div className='day-label'>T</div>
-              <div className='day-label'>F</div>
-              <div className='day-label'>S</div>
-
-              {/* Example calendar days */}
+              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d) => (
+                <div key={d} className='day-label'>
+                  {d}
+                </div>
+              ))}
               {Array.from({ length: 30 }, (_, i) => {
-                const hasEntry = i === 1; // Entry on April 2nd
+                const hasEntry = i === 1;
                 return (
                   <div
                     key={i}
@@ -107,7 +99,6 @@ const TimelinePage = () => {
                 <span className='year-label'>{year}</span>
                 <div className='divider-line'></div>
               </div>
-
               {entriesByYear[year].map((entry) => (
                 <div key={entry.id} className='timeline-entry'>
                   <div className='entry-date-block'>
@@ -141,15 +132,15 @@ const TimelinePage = () => {
       </div>
 
       <nav className='bottom-nav'>
-        <button className='nav-button'>
+        <button className='nav-button' onClick={() => navigate('/dashboard')}>
           <span className='nav-icon'>🏠</span>
           <span className='nav-label'>Home</span>
         </button>
-        <button className='nav-button'>
+        <button className='nav-button' onClick={() => navigate('/profile')}>
           <span className='nav-icon'>👤</span>
           <span className='nav-label'>Profile</span>
         </button>
-        <button className='nav-button'>
+        <button className='nav-button' onClick={() => navigate('/ai')}>
           <span className='nav-icon'>🤖</span>
           <span className='nav-label'>AI</span>
         </button>
@@ -157,7 +148,7 @@ const TimelinePage = () => {
           <span className='nav-icon'>📊</span>
           <span className='nav-label'>Timeline</span>
         </button>
-        <button className='nav-button'>
+        <button className='nav-button' onClick={() => navigate('/settings')}>
           <span className='nav-icon'>⚙️</span>
           <span className='nav-label'>Settings</span>
         </button>

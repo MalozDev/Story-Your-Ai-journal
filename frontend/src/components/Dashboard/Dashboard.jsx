@@ -1,11 +1,25 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Dashboard.css';
 
 const Dashboard = ({ username = 'User' }) => {
-  const [activeTab, setActiveTab] = useState('home');
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Get time of day for greeting
+  // Get active tab from current path
+  const getActiveTab = () => {
+    const path = location.pathname;
+    if (path === '/') return 'home';
+    if (path.includes('/profile')) return 'profile';
+    if (path.includes('/ai')) return 'ai';
+    if (path.includes('/timeline')) return 'timeline';
+    if (path.includes('/settings')) return 'settings';
+    return '';
+  };
+  const activeTab = getActiveTab();
+
+  const handleTabClick = (route) => {
+    navigate(route);
+  };
   const getTimeOfDay = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'morning';
@@ -13,7 +27,6 @@ const Dashboard = ({ username = 'User' }) => {
     return 'evening';
   };
 
-  // Dummy data for demonstration
   const recentEntries = [
     {
       id: 1,
@@ -44,12 +57,13 @@ const Dashboard = ({ username = 'User' }) => {
           <h1>
             Good {getTimeOfDay()}, {username}
           </h1>
-          <div className='profile-button'>👤</div>
+          <div className='profile-button' onClick={() => navigate('/profile')}>
+            👤
+          </div>
         </header>
 
         <section className='mood-visualization'>
           <div className='mood-graph'>
-            {/* Visual representation of user's recent moods */}
             <div className='mood-dots'>
               <span className='mood-dot happy'></span>
               <span className='mood-dot neutral'></span>
@@ -121,35 +135,35 @@ const Dashboard = ({ username = 'User' }) => {
       <nav className='bottom-nav'>
         <button
           className={`nav-button ${activeTab === 'home' ? 'active' : ''}`}
-          onClick={() => setActiveTab('home')}
+          onClick={() => handleTabClick('home')}
         >
           <span className='nav-icon'>🏠</span>
           <span className='nav-label'>Home</span>
         </button>
         <button
           className={`nav-button ${activeTab === 'profile' ? 'active' : ''}`}
-          onClick={() => setActiveTab('profile')}
+          onClick={() => handleTabClick('profile')}
         >
           <span className='nav-icon'>👤</span>
           <span className='nav-label'>Profile</span>
         </button>
         <button
           className={`nav-button ${activeTab === 'ai' ? 'active' : ''}`}
-          onClick={() => setActiveTab('ai')}
+          onClick={() => handleTabClick('ai')}
         >
           <span className='nav-icon'>🤖</span>
           <span className='nav-label'>AI</span>
         </button>
         <button
-          className={`nav-button ${activeTab === 'insights' ? 'active' : ''}`}
-          onClick={() => setActiveTab('insights')}
+          className={`nav-button ${activeTab === 'timeline' ? 'active' : ''}`}
+          onClick={() => handleTabClick('timeline')}
         >
           <span className='nav-icon'>📊</span>
-          <span className='nav-label'>Insights</span>
+          <span className='nav-label'>Timeline</span>
         </button>
         <button
           className={`nav-button ${activeTab === 'settings' ? 'active' : ''}`}
-          onClick={() => setActiveTab('settings')}
+          onClick={() => handleTabClick('settings')}
         >
           <span className='nav-icon'>⚙️</span>
           <span className='nav-label'>Settings</span>

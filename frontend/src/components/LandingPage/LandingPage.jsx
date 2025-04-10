@@ -16,7 +16,8 @@ const LandingPage = () => {
   return (
     <div className='landing-page'>
       <div className='logo-container'>
-        <h1 className='logo'>MyStory</h1>
+        <h1 className='logo'>Hi, I'm Story.</h1>
+        <h5 className='intro'>Your Ai Power Journaling Assistant.</h5>
       </div>
 
       <div className='hero-section'>
