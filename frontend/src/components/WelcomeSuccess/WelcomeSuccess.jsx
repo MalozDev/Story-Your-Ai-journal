@@ -14,7 +14,7 @@ const WelcomeSuccess = () => {
 
   const handleContinue = (action) => {
     if (action === 'write') {
-      navigate('/journal/new');
+      navigate('/dashboard');
     } else {
       navigate('/dashboard');
     }

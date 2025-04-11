@@ -1,26 +1,8 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 const Dashboard = ({ username = 'User' }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // Get active tab from current pathname
-  const getActiveTab = () => {
-    const path = location.pathname;
-    if (path === '/') return 'home';
-    if (path.includes('/profile')) return 'profile';
-    if (path.includes('/ai')) return 'ai';
-    if (path.includes('/timeline')) return 'timeline';
-    if (path.includes('/settings')) return 'settings';
-    return '';
-  };
-
-  const activeTab = getActiveTab();
-
-  const handleTabClick = (route) => {
-    navigate(route);
-  };
 
   const getTimeOfDay = () => {
     const hour = new Date().getHours();
@@ -140,21 +122,21 @@ const Dashboard = ({ username = 'User' }) => {
           <span className='nav-icon'>🏠</span>
           <span className='nav-label'>Home</span>
         </button>
-        <button className='nav-button' onClick={() => navigate('/profile')}>
+        <button className='nav-button' onClick={() => navigate('/knowme')}>
           <span className='nav-icon'>👤</span>
-          <span className='nav-label'>Profile</span>
+          <span className='nav-label'>Know me</span>
         </button>
-        <button className='nav-button' onClick={() => navigate('/ai')}>
+        <button className='nav-button' onClick={() => navigate('/Insights')}>
           <span className='nav-icon'>🤖</span>
-          <span className='nav-label'>AI</span>
+          <span className='nav-label'>Insights</span>
         </button>
         <button className='nav-button' onClick={() => navigate('/timeline')}>
           <span className='nav-icon'>📊</span>
           <span className='nav-label'>Timeline</span>
         </button>
-        <button className='nav-button' onClick={() => navigate('/settings')}>
+        <button className='nav-button' onClick={() => navigate('/goals')}>
           <span className='nav-icon'>⚙️</span>
-          <span className='nav-label'>Settings</span>
+          <span className='nav-label'>Goals</span>
         </button>
       </nav>
     </div>

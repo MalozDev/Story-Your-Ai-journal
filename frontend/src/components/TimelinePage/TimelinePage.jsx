@@ -136,21 +136,21 @@ const TimelinePage = () => {
           <span className='nav-icon'>🏠</span>
           <span className='nav-label'>Home</span>
         </button>
-        <button className='nav-button' onClick={() => navigate('/profile')}>
+        <button className='nav-button' onClick={() => navigate('/knowme')}>
           <span className='nav-icon'>👤</span>
-          <span className='nav-label'>Profile</span>
+          <span className='nav-label'>Know me</span>
         </button>
-        <button className='nav-button' onClick={() => navigate('/ai')}>
+        <button className='nav-button' onClick={() => navigate('/insights')}>
           <span className='nav-icon'>🤖</span>
-          <span className='nav-label'>AI</span>
+          <span className='nav-label'>Insights</span>
         </button>
         <button className='nav-button active'>
           <span className='nav-icon'>📊</span>
           <span className='nav-label'>Timeline</span>
         </button>
-        <button className='nav-button' onClick={() => navigate('/settings')}>
+        <button className='nav-button' onClick={() => navigate('/goals')}>
           <span className='nav-icon'>⚙️</span>
-          <span className='nav-label'>Settings</span>
+          <span className='nav-label'>Goals</span>
         </button>
       </nav>
     </div>

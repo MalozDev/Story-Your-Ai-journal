@@ -5,8 +5,9 @@ import WelcomeSuccess from './components/WelcomeSuccess/WelcomeSuccess';
 import MainDashboard from './components/Dashboard/Dashboard';
 import TimelinePage from './components/TimelinePage/TimelinePage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
-import SettingsPage from './components/SettingsPage/SettingsPage';
-import AIPage from './components/AIPage/AIPage';
+import Insights from './components/Insights/Insights';
+import KnowMe from './components/KnowMe/knowMe';
+import Goals from './components/Goals/Goals';
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
         <Route path='/dashboard' element={<MainDashboard />} />
         <Route path='/timeline' element={<TimelinePage />} />
         <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/settings' element={<SettingsPage />} />
-        <Route path='/ai' element={<AIPage />} />
+        <Route path='/insights' element={<Insights />} />
+        <Route path='/knowme' element={<KnowMe />} />
+        <Route path='/goals' element={<Goals />} />
       </Routes>
     </BrowserRouter>
   );
