@@ -46,6 +46,13 @@ const LandingPage = () => {
             Start Your Story
           </button>
         </div>
+
+        <div className='login-container'>
+          <p className='login'> Already have an account? Login Here </p>
+          <button class='login-btn' onClick={() => navigate('/login')}>
+            Login
+          </button>
+        </div>
       </div>
 
       <div className='benefits-section'>
