@@ -36,7 +36,7 @@ const Goals = () => {
               transform='rotate(-90 50 50)'
             />
           </svg>
-          <span className='progress-text'>70%</span>
+          <span className='progress-txt'>70%</span>
         </div>
         <p className='progress-description'>On track with your goals</p>
       </div>

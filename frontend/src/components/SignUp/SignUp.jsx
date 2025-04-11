@@ -16,6 +16,7 @@ const SignUp = () => {
     aiPersonality: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
   const [currentInput, setCurrentInput] = useState('');
 
@@ -42,6 +43,16 @@ const SignUp = () => {
       case 5:
         updatedUserData.email = currentInput;
         break;
+      case 6:
+        updatedUserData.password = currentInput;
+        break;
+      case 7:
+        if (currentInput !== updatedUserData.password) {
+          alert('Passwords do not match!');
+          return;
+        }
+        updatedUserData.confirmPassword = currentInput;
+        break;
       default:
         break;
     }
@@ -49,7 +60,7 @@ const SignUp = () => {
     setUserData(updatedUserData);
     setCurrentInput('');
 
-    if (currentStep < 5) {
+    if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
     } else {
       navigate('/welcome', { state: { userData: updatedUserData } });
@@ -61,13 +72,17 @@ const SignUp = () => {
       case 1:
         return 'What should I call you?';
       case 2:
-        return "When's your birthday? Where are you located?";
+        return "When's your birthday?";
       case 3:
         return 'If you had to describe your life in one word?';
       case 4:
         return 'How should I interact with you? (Supportive, Direct, Curious, etc.)';
       case 5:
         return "Let's secure your journal! What's your email?";
+      case 6:
+        return 'Create a password for your journal';
+      case 7:
+        return 'Please confirm your password';
       default:
         return '';
     }
@@ -83,8 +98,8 @@ const SignUp = () => {
         };
       case 2:
         return {
-          type: 'text',
-          placeholder: 'Birthday & timezone...',
+          type: 'date',
+          placeholder: '',
         };
       case 3:
         return {
@@ -100,6 +115,16 @@ const SignUp = () => {
         return {
           type: 'email',
           placeholder: 'Your email address...',
+        };
+      case 6:
+        return {
+          type: 'password',
+          placeholder: 'Enter password...',
+        };
+      case 7:
+        return {
+          type: 'password',
+          placeholder: 'Confirm password...',
         };
       default:
         return {
@@ -156,9 +181,9 @@ const SignUp = () => {
       </div>
 
       <div className='progress-container'>
-        <div className='progress-text'>Sign-up Progress: {currentStep}/5</div>
+        <div className='progress-text'>Sign-up Progress: {currentStep}/7</div>
         <div className='progress-dots'>
-          {[1, 2, 3, 4, 5].map((step) => (
+          {[1, 2, 3, 4, 5, 6, 7].map((step) => (
             <div
               key={step}
               className={`progress-dot ${currentStep === step ? 'active' : ''}`}

@@ -14,9 +14,9 @@ const WelcomeSuccess = () => {
 
   const handleContinue = (action) => {
     if (action === 'write') {
-      navigate('/dashboard');
+      navigate('/dashboard', { state: { userData } });
     } else {
-      navigate('/dashboard');
+      navigate('/dashboard', { state: { userData } });
     }
   };
 

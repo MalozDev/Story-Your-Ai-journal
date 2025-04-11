@@ -20,7 +20,7 @@ const KnowMe = () => {
           <div className='book not-started'></div>
           <div className='book not-started'></div>
         </div>
-        <p className='progress-txt'>Life chapters in progress</p>
+        <p className='progress-txtt'>Life chapters in progress</p>
       </div>
 
       {/* Today's Memory */}

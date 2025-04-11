@@ -1,8 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Dashboard.css';
 
-const Dashboard = ({ username = 'User' }) => {
+const Dashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Default to "User" if no name was passed from sign up
+  const username = location.state?.userData?.name || 'User';
 
   const getTimeOfDay = () => {
     const hour = new Date().getHours();
