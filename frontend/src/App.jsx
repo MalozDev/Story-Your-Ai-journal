@@ -8,7 +8,7 @@ import ProfilePage from './components/ProfilePage/ProfilePage';
 import Insights from './components/Insights/Insights';
 import KnowMe from './components/KnowMe/knowMe';
 import Goals from './components/Goals/Goals';
-import LoginPage from './components/LoginPage/LoginPage';
+import Login from './components/Login/Login';
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         <Route path='/insights' element={<Insights />} />
         <Route path='/knowme' element={<KnowMe />} />
         <Route path='/goals' element={<Goals />} />
-        <Route path='/login' element={<LoginPage />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

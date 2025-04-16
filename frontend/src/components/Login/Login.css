@@ -1,0 +1,182 @@
+/* Login.css - Based on MyStory design system */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;500;600&family=Lora&display=swap');
+
+:root {
+  --primary-color: #1a365d; /* Deep Navy Blue */
+  --secondary-color: #f59e0b; /* Warm Amber */
+  --background-color: #fffbf0; /* Soft Cream */
+  --text-color: #2d3748; /* Dark Charcoal */
+  --accent-teal: #4fd1c5; /* Soft Teal */
+  --accent-pink: #f56565; /* Coral Pink */
+  --accent-lavender: #9f7aea; /* Lavender */
+  --error-color: #e53e3e; /* Red */
+}
+
+body {
+  font-family: 'Work Sans', sans-serif;
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+.login-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 32px 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* Paper texture background */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 8px 0;
+}
+
+.login-subtitle {
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  color: var(--text-color);
+  opacity: 0.8;
+  margin: 0;
+}
+
+.login-error {
+  background-color: rgba(229, 62, 62, 0.1);
+  color: var(--error-color);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.form-input {
+  padding: 12px 16px;
+  border: 1px solid rgba(45, 55, 72, 0.2);
+  border-radius: 8px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  background-color: rgba(255, 251, 240, 0.5);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+}
+
+.forgot-password {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.forgot-password a {
+  font-size: 14px;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-password a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.login-button {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 12px;
+}
+
+.login-button:hover {
+  background-color: #e69009;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(245, 158, 11, 0.3);
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+}
+
+.login-footer a {
+  color: var(--error-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.login-footer a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 16px;
+  }
+
+  .login-card {
+    padding: 24px 16px;
+  }
+
+  .login-title {
+    font-size: 28px;
+  }
+}
