@@ -1,6 +1,8 @@
-// src/components/SignUp/SignUp.jsx
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
+import LottieAnimation from '../LottieAnimations/LottieAnimations';
+import botSignupAnimation from '../../assets/animations/bot-puzzle.json';
 import './SignUp.css';
 
 const SignUp = () => {
@@ -20,9 +22,7 @@ const SignUp = () => {
   });
   const [currentInput, setCurrentInput] = useState('');
 
-  const handleInputChange = (e) => {
-    setCurrentInput(e.target.value);
-  };
+  const handleInputChange = (e) => setCurrentInput(e.target.value);
 
   const handleContinue = () => {
     let updatedUserData = { ...userData };
@@ -63,7 +63,10 @@ const SignUp = () => {
     if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
     } else {
-      navigate('/welcome', { state: { userData: updatedUserData } });
+      // Smooth route transition
+      setTimeout(() => {
+        navigate('/welcome', { state: { userData: updatedUserData } });
+      }, 300); // Matches the exit animation duration
     }
   };
 
@@ -88,77 +91,81 @@ const SignUp = () => {
     }
   };
 
-  const getInputConfig = () => {
+  const inputConfig = (() => {
     switch (currentStep) {
       case 1:
-        return {
-          type: 'text',
-          placeholder: 'Your name...',
-          autoFocus: true,
-        };
+        return { type: 'text', placeholder: 'Your name...', autoFocus: true };
       case 2:
-        return {
-          type: 'date',
-          placeholder: '',
-        };
+        return { type: 'date', placeholder: '' };
       case 3:
-        return {
-          type: 'text',
-          placeholder: 'One word...',
-        };
+        return { type: 'text', placeholder: 'One word...' };
       case 4:
-        return {
-          type: 'text',
-          placeholder: 'AI personality preference...',
-        };
+        return { type: 'text', placeholder: 'AI personality preference...' };
       case 5:
-        return {
-          type: 'email',
-          placeholder: 'Your email address...',
-        };
+        return { type: 'email', placeholder: 'Your email address...' };
       case 6:
-        return {
-          type: 'password',
-          placeholder: 'Enter password...',
-        };
+        return { type: 'password', placeholder: 'Enter password...' };
       case 7:
-        return {
-          type: 'password',
-          placeholder: 'Confirm password...',
-        };
+        return { type: 'password', placeholder: 'Confirm password...' };
       default:
-        return {
-          type: 'text',
-          placeholder: '',
-        };
+        return { type: 'text', placeholder: '' };
     }
-  };
-
-  const inputConfig = getInputConfig();
+  })();
 
   return (
-    <div className='signup-container'>
+    <motion.div
+      className='signup-container'
+      initial={{ opacity: 0, x: 100, scale: 0.95 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={{ opacity: 0, x: -100, scale: 0.95 }}
+      transition={{ duration: 0.9, ease: 'easeInOut' }}
+    >
+      <LottieAnimation
+        animationData={botSignupAnimation}
+        width={160}
+        className='signup-animation'
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+      />
+
       <div className='signup-header'>
         <h1 className='signup-title'>MyStory - Get Started</h1>
       </div>
 
       <div className='conversation-container'>
-        <div className='ai-message'>
-          <div className='ai-avatar'>🤖</div>
-          <div className='message-bubble'>
-            <p>
-              Hey there! I'm Story, your personal memory companion. Before we
-              begin, let's get to know each other!
-            </p>
-          </div>
-        </div>
+        {currentStep === 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className='ai-message'
+          >
+            <div className='ai-avatar'>🤖</div>
+            <div className='message-bubble'>
+              <p>
+                Hey there! I'm Story, your personal memory companion. Before we
+                begin, let's get to know each other!
+              </p>
+            </div>
+          </motion.div>
+        )}
 
-        <div className='ai-message'>
-          <div className='ai-avatar'>🤖</div>
-          <div className='message-bubble'>
-            <p>{getStepQuestion()}</p>
-          </div>
-        </div>
+        <AnimatePresence mode='wait'>
+          <motion.div
+            key={currentStep}
+            className='ai-message'
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: -10 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <div className='ai-avatar'>🤖</div>
+            <div className='message-bubble'>
+              <p>{getStepQuestion()}</p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
         <div className='user-input-container'>
           <input
@@ -169,7 +176,6 @@ const SignUp = () => {
             className='user-input'
             autoFocus={inputConfig.autoFocus}
           />
-
           <button
             className='continue-button'
             onClick={handleContinue}
@@ -191,7 +197,7 @@ const SignUp = () => {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
