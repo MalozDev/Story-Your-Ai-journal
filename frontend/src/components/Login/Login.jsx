@@ -1,30 +1,43 @@
-import React, { useState } from 'react';
+// src/components/Login/Login.jsx
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebaseConfig'; // ensure this is correct
+import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  // Auto-redirect if already logged in
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/welcomecontext');
+    }
+  }, [currentUser, navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form validation
+
     if (!email || !password) {
       setError('Please enter both email and password');
       return;
     }
 
-    // Clear any previous errors
     setError('');
 
-    // Here you would add authentication logic
-    console.log('Login attempt with:', { email });
-
-    // For demo purposes - you'd replace this with actual auth
-    alert('Login functionality would be implemented here');
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // AuthContext will detect and redirect
+    } catch (err) {
+      console.error('Login failed:', err);
+      setError('Invalid email or password');
+    }
   };
 
   return (
@@ -47,6 +60,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder='your-email@gmail.com'
               className='form-input'
+              required
             />
           </div>
 
@@ -59,6 +73,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder='••••••••'
               className='form-input'
+              required
             />
             <div className='forgot-password'>
               <a href='/forgot-password'>Forgot password?</a>

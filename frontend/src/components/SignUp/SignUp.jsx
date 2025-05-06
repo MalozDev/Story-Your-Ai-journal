@@ -3,17 +3,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LottieAnimation from '../LottieAnimations/LottieAnimations';
 import botSignupAnimation from '../../assets/animations/bot-puzzle.json';
+import { registerUser } from '../../services/authService';
 import './SignUp.css';
 
 const SignUp = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const [userData, setUserData] = useState({
     title: location.state?.title || '',
     name: '',
     birthday: '',
-    timezone: '',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     lifeWord: '',
     aiPersonality: '',
     email: '',
@@ -22,40 +25,82 @@ const SignUp = () => {
   });
   const [currentInput, setCurrentInput] = useState('');
 
-  const handleInputChange = (e) => setCurrentInput(e.target.value);
+  const handleInputChange = (e) => {
+    setCurrentInput(e.target.value);
+    // Clear any previous errors when user starts typing
+    if (error) setError('');
+  };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     let updatedUserData = { ...userData };
+    let canProceed = true;
 
     switch (currentStep) {
-      case 1:
-        updatedUserData.name = currentInput;
-        break;
-      case 2:
-        updatedUserData.birthday = currentInput;
-        break;
-      case 3:
-        updatedUserData.lifeWord = currentInput;
-        break;
-      case 4:
-        updatedUserData.aiPersonality = currentInput;
-        break;
-      case 5:
-        updatedUserData.email = currentInput;
-        break;
-      case 6:
-        updatedUserData.password = currentInput;
-        break;
-      case 7:
-        if (currentInput !== updatedUserData.password) {
-          alert('Passwords do not match!');
-          return;
+      case 1: // Name
+        if (currentInput.trim().length < 2) {
+          setError('Please enter a valid name (at least 2 characters)');
+          canProceed = false;
+        } else {
+          updatedUserData.name = currentInput;
         }
-        updatedUserData.confirmPassword = currentInput;
+        break;
+      case 2: // Birthday
+        // Basic date validation
+        if (!currentInput || !Date.parse(currentInput)) {
+          setError('Please enter a valid date');
+          canProceed = false;
+        } else {
+          updatedUserData.birthday = currentInput;
+        }
+        break;
+      case 3: // Life word
+        if (!currentInput.trim()) {
+          setError('Please enter a word');
+          canProceed = false;
+        } else {
+          updatedUserData.lifeWord = currentInput;
+        }
+        break;
+      case 4: // AI Personality
+        if (!currentInput.trim()) {
+          setError('Please describe how I should interact with you');
+          canProceed = false;
+        } else {
+          updatedUserData.aiPersonality = currentInput;
+        }
+        break;
+      case 5: // Email
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(currentInput)) {
+          setError('Please enter a valid email address');
+          canProceed = false;
+        } else {
+          updatedUserData.email = currentInput;
+        }
+        break;
+      case 6: // Password
+        // Basic password strength validation
+        if (currentInput.length < 6) {
+          setError('Password must be at least 6 characters long');
+          canProceed = false;
+        } else {
+          updatedUserData.password = currentInput;
+        }
+        break;
+      case 7: // Confirm Password
+        if (currentInput !== updatedUserData.password) {
+          setError('Passwords do not match!');
+          canProceed = false;
+        } else {
+          updatedUserData.confirmPassword = currentInput;
+        }
         break;
       default:
         break;
     }
+
+    if (!canProceed) return;
 
     setUserData(updatedUserData);
     setCurrentInput('');
@@ -63,10 +108,31 @@ const SignUp = () => {
     if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Smooth route transition
-      setTimeout(() => {
-        navigate('/welcome', { state: { userData: updatedUserData } });
-      }, 300); // Matches the exit animation duration
+      // Final step - Register user with Firebase
+      try {
+        setIsLoading(true);
+        await registerUser(updatedUserData.email, updatedUserData.password, updatedUserData);
+        
+        // Smooth route transition after successful registration
+        setTimeout(() => {
+          navigate('/welcome', { state: { userData: updatedUserData } });
+        }, 300);
+      } catch (error) {
+        console.error('Registration error:', error);
+        let errorMessage = 'Registration failed. Please try again.';
+        
+        // Handle specific Firebase auth errors
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage = 'This email is already registered. Please use a different email or try logging in.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = 'Invalid email format.';
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage = 'Password is too weak. Please use a stronger password.';
+        }
+        
+        setError(errorMessage);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -111,6 +177,12 @@ const SignUp = () => {
         return { type: 'text', placeholder: '' };
     }
   })();
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && currentInput.trim()) {
+      handleContinue();
+    }
+  };
 
   return (
     <motion.div
@@ -167,21 +239,33 @@ const SignUp = () => {
           </motion.div>
         </AnimatePresence>
 
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className='error-message'
+          >
+            <p>{error}</p>
+          </motion.div>
+        )}
+
         <div className='user-input-container'>
           <input
             type={inputConfig.type}
             value={currentInput}
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             placeholder={inputConfig.placeholder}
             className='user-input'
             autoFocus={inputConfig.autoFocus}
+            disabled={isLoading}
           />
           <button
             className='continue-button'
             onClick={handleContinue}
-            disabled={!currentInput.trim()}
+            disabled={!currentInput.trim() || isLoading}
           >
-            Continue
+            {isLoading ? 'Processing...' : currentStep === 7 ? 'Sign Up' : 'Continue'}
           </button>
         </div>
       </div>
